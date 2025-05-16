@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "coord": {
+      "type": "object",
+      "properties": {
+        "lon": {
+          "type": "number",
+          "minimum": 106.85,
+          "maximum": 106.87
+        },
+        "lat": {
+          "type": "number",
+          "minimum": -6.22,
+          "maximum": -6.21
+        }
+      },
+      "required": ["lon", "lat"]
+    },
+    "list": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "dt": {
+            "type": "integer",
+            "description": "Timestamp (unix, UTC)"
+          },
+          "main": {
+            "type": "object",
+            "properties": {
+              "aqi": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 5
+              }
+            },
+            "required": ["aqi"]
+          },
+          "components": {
+            "type": "object",
+            "properties": {
+              "co": {
+                "type": "number",
+                "minimum": 0
+              },
+              "no": {
+                "type": "number",
+                "minimum": 0
+              },
+              "no2": {
+                "type": "number",
+                "minimum": 0
+              },
+              "o3": {
+                "type": "number",
+                "minimum": 0
+              },
+              "so2": {
+                "type": "number",
+                "minimum": 0
+              },
+              "pm2_5": {
+                "type": "number",
+                "minimum": 0
+              },
+              "pm10": {
+                "type": "number",
+                "minimum": 0
+              },
+              "nh3": {
+                "type": "number",
+                "minimum": 0
+              }
+            },
+            "required": ["pm2_5", "pm10", "co"]
+          }
+        },
+        "required": ["dt", "main", "components"]
+      }
+    }
+  },
+  "required": ["coord", "list"]
+}

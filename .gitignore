@@ -11,8 +11,15 @@ output
 !output/.gitkeep
 build
 
+# Jangan ignore Include folder
+!Include/
+
+
 .classpath
 
 .project
 
 .cache
+
+/Profiles/
+*.properties

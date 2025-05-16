@@ -1,0 +1,149 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "cod": {
+      "type": "string",
+      "pattern": "^200$"
+    },
+    "message": {
+      "type": "number"
+    },
+    "cnt": {
+      "type": "integer",
+      "minimum": 40
+    },
+    "list": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "dt": {
+            "type": "integer",
+            "description": "Timestamp (unix, UTC)"
+          },
+          "main": {
+            "type": "object",
+            "properties": {
+              "temp": {
+                "type": "number",
+                "minimum": -20,
+                "maximum": 50
+              },
+              "feels_like": {
+                "type": "number"
+              },
+              "temp_min": {
+                "type": "number"
+              },
+              "temp_max": {
+                "type": "number"
+              },
+              "pressure": {
+                "type": "integer",
+                "minimum": 800,
+                "maximum": 1100
+              },
+              "humidity": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              }
+            },
+            "required": ["temp", "humidity"]
+          },
+          "weather": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "Kode kondisi cuaca"
+                },
+                "main": {
+                  "type": "string",
+                  "enum": ["Clear", "Clouds", "Rain", "Thunderstorm", "Drizzle", "Snow"]
+                },
+                "description": {
+                  "type": "string"
+                },
+                "icon": {
+                  "type": "string",
+                  "pattern": "^[0-9][0-9][d|n]$"
+                }
+              },
+              "required": ["id", "main"]
+            }
+          },
+          "clouds": {
+            "type": "object",
+            "properties": {
+              "all": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              }
+            }
+          },
+          "wind": {
+            "type": "object",
+            "properties": {
+              "speed": {
+                "type": "number",
+                "minimum": 0
+              },
+              "deg": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 360
+              }
+            }
+          },
+          "visibility": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "pop": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "dt_txt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": ["dt", "main", "weather", "dt_txt"]
+      }
+    },
+    "city": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "const": 1642907
+        },
+        "name": {
+          "type": "string",
+          "const": "Jakarta"
+        },
+        "country": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$"
+        },
+        "timezone": {
+          "type": "integer"
+        },
+        "sunrise": {
+          "type": "integer"
+        },
+        "sunset": {
+          "type": "integer"
+        }
+      },
+      "required": ["id", "name"]
+    }
+  },
+  "required": ["cod", "list", "city"]
+}

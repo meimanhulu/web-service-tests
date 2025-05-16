@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description></description>
+   <name>TC_5DayWeatherForecast</name>
+   <tag></tag>
+   <comment></comment>
+   <recordOption>OTHER</recordOption>
+   <testCaseGuid>bf3c1bb6-7b30-48ca-b8b5-f446f932f2f1</testCaseGuid>
+</TestCaseEntity>
