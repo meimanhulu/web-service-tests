@@ -1,4 +1,4 @@
-#How to Run Tests
+# How to Run Tests
 Open the project in Katalon Studio
 
 Create a Test Suite:
@@ -17,9 +17,8 @@ Click the green "Run" button
 
 Select browser (irrelevant for API tests, but required by Katalon)
 
-#How to Get Reports
+# How to Get Reports
 Go to Reports tab
-
 Double-click the latest execution
 
 # Project Structure Explanation
