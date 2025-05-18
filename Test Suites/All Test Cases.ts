@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestSuiteEntity>
    <description></description>
-   <name>web-service-tests - All Test Cases</name>
+   <name>All Test Cases</name>
    <tag></tag>
    <isRerun>false</isRerun>
    <mailRecipient></mailRecipient>
@@ -12,10 +12,17 @@
    <rerunImmediately>false</rerunImmediately>
    <testSuiteGuid>df88b384-4db8-4c82-b255-0afa0fd22006</testSuiteGuid>
    <testCaseLink>
-      <guid>169b3a87-639b-4ba3-9563-374120e7a7bb</guid>
+      <guid>0e75d833-1d3d-476a-a258-24d3b4f78a1b</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
       <testCaseId>Test Cases/TC_5DayWeatherForecast</testCaseId>
+      <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
+   </testCaseLink>
+   <testCaseLink>
+      <guid>ef81886b-de80-4a90-b48d-483c2417203b</guid>
+      <isReuseDriver>false</isReuseDriver>
+      <isRun>true</isRun>
+      <testCaseId>Test Cases/TC_CurrentAirPollution</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
 </TestSuiteEntity>

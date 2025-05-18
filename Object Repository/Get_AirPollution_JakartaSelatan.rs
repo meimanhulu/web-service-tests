@@ -11,12 +11,8 @@
    <connectionTimeout>0</connectionTimeout>
    <followRedirects>false</followRedirects>
    <httpBody></httpBody>
-   <httpBodyContent>{
-  &quot;text&quot;: &quot;&quot;,
-  &quot;contentType&quot;: &quot;application/json&quot;,
-  &quot;charset&quot;: &quot;UTF-8&quot;
-}</httpBodyContent>
-   <httpBodyType>text</httpBodyType>
+   <httpBodyContent></httpBodyContent>
+   <httpBodyType></httpBodyType>
    <httpHeaderProperties>
       <isSelected>true</isSelected>
       <matchCondition>equals</matchCondition>
@@ -38,55 +34,6 @@
    <soapServiceFunction></soapServiceFunction>
    <socketTimeout>0</socketTimeout>
    <useServiceInfoFromWsdl>true</useServiceInfoFromWsdl>
-   <variables>
-      <defaultValue>21</defaultValue>
-      <description></description>
-      <id>0de4fa76-1864-4d5e-aa8a-70ad8f4f4342</id>
-      <masked>false</masked>
-      <name>age</name>
-   </variables>
-   <variables>
-      <defaultValue>'ngoc'</defaultValue>
-      <description></description>
-      <id>086a27a9-05ed-4e07-8465-e17bddfdeac1</id>
-      <masked>false</masked>
-      <name>username</name>
-   </variables>
-   <variables>
-      <defaultValue>'1234567890'</defaultValue>
-      <description></description>
-      <id>311c2780-afd0-4352-a23f-fc00c2c42271</id>
-      <masked>false</masked>
-      <name>password</name>
-   </variables>
-   <variables>
-      <defaultValue>'https://www.rd.com/wp-content/uploads/2019/06/lily-of-the-valley-760x506.jpg'</defaultValue>
-      <description></description>
-      <id>bcddbada-1d5e-422c-b810-55f7c48bb931</id>
-      <masked>false</masked>
-      <name>avatar</name>
-   </variables>
-   <variables>
-      <defaultValue>'FEMALE'</defaultValue>
-      <description></description>
-      <id>3b3cb3f6-19ff-4f44-ae2c-a1c680bd3044</id>
-      <masked>false</masked>
-      <name>gender</name>
-   </variables>
-   <variables>
-      <defaultValue>GlobalVariable.successCode</defaultValue>
-      <description></description>
-      <id>f1c9042c-8dca-4d38-ba9e-77542f9e8d20</id>
-      <masked>false</masked>
-      <name>expectedStatusCode</name>
-   </variables>
-   <variables>
-      <defaultValue>7</defaultValue>
-      <description></description>
-      <id>c4249c68-7dc1-4ffc-ad8e-a4109ce4bb7b</id>
-      <masked>false</masked>
-      <name>id</name>
-   </variables>
    <verificationScript>import static org.assertj.core.api.Assertions.*
 
 import com.kms.katalon.core.testobject.RequestObject
@@ -96,9 +43,48 @@ import com.kms.katalon.core.webservice.verification.WSResponseManager
 
 import internal.GlobalVariable as GlobalVariable
 
-RequestObject request = WSResponseManager.getInstance().getCurrentRequest()
+// Get the current response object
 ResponseObject response = WSResponseManager.getInstance().getCurrentResponse()
-assert response.getStatusCode() == 200
+
+// Verify the response status code
+WS.verifyResponseStatusCode(response, 200)
+
+// Additional verification based on the image (status code, headers)
+assertThat(response.getStatusCode()).isEqualTo(200)
+assertThat(response.getHeaderFields()).containsKey(&quot;Content-Type&quot;)
+assertThat(response.getHeaderFields().get(&quot;Content-Type&quot;)).contains(&quot;application/json&quot;)
+
+// Verify specific properties in the response data
+WS.verifyElementPropertyValue(response, 'coord.lon', 106.8584)
+WS.verifyElementPropertyValue(response, 'coord.lat', -6.2182)
+
+// Verify the AQI (Air Quality Index) values for specific times (from list array)
+assertThat(response.getResponseText()).contains(&quot;list&quot;)
+String[] arrayResponse = [&quot;why&quot;, &quot;hello&quot;, &quot;there&quot;, &quot;how&quot;, &quot;are&quot;, &quot;you&quot;]
+
+// Apply array validation
+assertThat(arrayResponse).containsOnly(&quot;there&quot;, &quot;hello&quot;, &quot;why&quot;)  // Only &quot;there&quot;, &quot;hello&quot;, &quot;why&quot; are valid values
+assertThat(arrayResponse).containsExactly(&quot;why&quot;, &quot;hello&quot;, &quot;there&quot;, &quot;how&quot;, &quot;are&quot;, &quot;you&quot;) // All values must match exactly
+
+// Verify timestamp and AQI values for later times
+WS.verifyElementPropertyValue(response, 'list[95].dt', 1747879200)
+WS.verifyElementPropertyValue(response, 'list[95].components.nh3', 0.73)
+WS.verifyElementPropertyValue(response, 'list[95].main.aqi', 2)
+WS.verifyElementPropertyValue(response, 'list[95].components.co', 153.51)
+WS.verifyElementPropertyValue(response, 'list[95].components.o3', 60.48)
+
+// Verify elements for another data point in the list
+WS.verifyElementPropertyValue(response, 'list[100].main.aqi', 1)
+WS.verifyElementPropertyValue(response, 'list[100].components.pm2_5', 10.83)  // Corrected pm2_5 index
+
+// Verifying the last entries in the list for completeness
+WS.verifyElementPropertyValue(response, 'list[200].main.aqi', 2)
+WS.verifyElementPropertyValue(response, 'list[200].components.nh3', 1.16)
+
+// Additional checks for components in the list
+WS.verifyElementPropertyValue(response, 'list[10].components.co', 245.86)
+WS.verifyElementPropertyValue(response, 'list[10].components.o3', 51.77)
+WS.verifyElementPropertyValue(response, 'list[20].components.so2', 0.35)
 </verificationScript>
    <wsdlAddress></wsdlAddress>
 </WebServiceRequestEntity>
