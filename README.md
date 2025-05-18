@@ -1,18 +1,49 @@
-# Web Service Testing Samples
+# How to Run Tests
+Open the project in Katalon Studio
 
-See https://docs.katalon.com/katalon-studio/docs/web-service-samples.html.
+Create a Test Suite:
 
-## Companion products
+Right-click Test Suites > New > Test Suite
 
-### Katalon TestOps
+Name it (e.g., TS_API_Validation)
 
-[Katalon TestOps](https://analytics.katalon.com) is a web-based application that provides dynamic perspectives and an insightful look at your automation testing data. You can leverage your automation testing data by transforming and visualizing your data; analyzing test results; seamlessly integrating with such tools as Katalon Studio and Jira; maximizing the testing capacity with remote execution.
+Add Test Cases:
 
-* Read our [documentation](https://docs.katalon.com/katalon-analytics/docs/overview.html).
-* Ask a question on [Forum](https://forum.katalon.com/categories/katalon-analytics).
-* Request a new feature on [GitHub](CONTRIBUTING.md).
-* Vote for [Popular Feature Requests](https://github.com/katalon-analytics/katalon-analytics/issues?q=is%3Aopen+is%3Aissue+label%3Afeature-request+sort%3Areactions-%2B1-desc).
-* File a bug in [GitHub Issues](https://github.com/katalon-analytics/katalon-analytics/issues).
+Drag TC_5DayWeatherForecast and TC_AirPollutionForecast into the suite
 
-### Katalon Studio
-[Katalon Studio](https://www.katalon.com) is a free and complete automation testing solution for Web, Mobile, and API testing with modern methodologies (Data-Driven Testing, TDD/BDD, Page Object Model, etc.) as well as advanced integration (JIRA, qTest, Slack, CI, Katalon TestOps, etc.). Learn more about [Katalon Studio features](https://www.katalon.com/features/).
+Run the suite:
+
+Click the green "Run" button
+
+Select browser (irrelevant for API tests, but required by Katalon)
+
+# How to Get Reports
+Go to Reports tab
+Double-click the latest execution
+
+# Project Structure Explanation
+/ProjectRoot/
+├── Objects Repository/
+│   └── WeatherAPIs/
+│       ├── Get_5DayWeather_JakartaSelatan   # GET forecast endpoint config
+│       └── Get_AirPollution_JakartaSelatan  # GET pollution endpoint config
+│
+├── Keywords/
+│   ├── WeatherKeywords.groovy       # Validation logic for weather data
+│   ├── PollutionKeywords.groovy     # Validation logic for pollution data
+│   ├── RateLimitKeywords.groovy     # Rate limit handling
+│   └── AssertionKeywords.groovy     # Common assertions
+│
+├── Test Cases/
+│   ├── TC_5DayWeatherForecast       # Test for weather API
+│   └── TC_AirPollutionForecast      # Test for pollution API
+│
+├── Include/
+│   └── Schemas/
+│       ├── weather_schema.json      # JSON schema for weather response
+│       └── pollution_schema.json    # JSON schema for pollution response
+│
+├── Profiles/
+│   └── default.properties           # API keys and global variables
+│
+└── Test Suites/                     # (Optional) Test suite collections
