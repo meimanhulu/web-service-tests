@@ -21,41 +21,30 @@ import com.kms.katalon.core.testobject.RequestObject as RequestObject
 import static org.assertj.core.api.Assertions.*
 import groovy.json.JsonSlurper
 
-// Send the request to get air pollution data for Jakarta
+// Send the request
 def response = WS.sendRequest(findTestObject('Get_AirPollution_JakartaSelatan'))
 
-// Verify the response status code
+// Verify
 WS.verifyResponseStatusCode(response, 200)
 
-// Additional verification based on the image (status code, headers)
 assertThat(response.getStatusCode()).isEqualTo(200)
 assertThat(response.getHeaderFields()).containsKey('Content-Type')
 assertThat(response.getHeaderFields().get("Content-Type").toString()).contains("application/json")
 
-// Verify specific properties in the response data - these coordinates should be stable
 WS.verifyElementPropertyValue(response, 'coord.lon', 106.8584)
 WS.verifyElementPropertyValue(response, 'coord.lat', -6.2182)
 
-// Verify the AQI (Air Quality Index) values for specific times (from list array)
 assertThat(response.getResponseText()).contains('list')
-
-// Apply array validation example (this is just a sample and not related to the API response)
 String[] arrayResponse = ['why', 'hello', 'there', 'how', 'are', 'you']
 assertThat(arrayResponse).containsOnly('there', 'hello', 'why', 'how', 'are', 'you')
 assertThat(arrayResponse).containsExactly('why', 'hello', 'there', 'how', 'are', 'you')
 
-// Parse the entire response for more flexible validation
 def jsonSlurper = new JsonSlurper()
 def jsonResponse = jsonSlurper.parseText(response.getResponseText())
-
-// Verify response structure
 assert jsonResponse.list != null : "Response should contain a 'list' array"
 assert jsonResponse.list.size() > 0 : "List should contain at least one entry"
-
-// Print list size for reference
 println("List size: " + jsonResponse.list.size())
 
-// Verify first entry in the response has expected structure and valid values
 def firstEntry = jsonResponse.list[0]
 assert firstEntry.main != null : "First entry should have a 'main' object"
 assert firstEntry.main.aqi >= 1 && firstEntry.main.aqi <= 5 : "AQI should be between 1 and 5"
@@ -68,7 +57,6 @@ assert firstEntry.components.pm2_5 >= 0 : "PM2.5 value should be valid"
 assert firstEntry.components.pm10 >= 0 : "PM10 value should be valid"
 assert firstEntry.dt > 0 : "Timestamp should be valid"
 
-// Print actual values for reference (useful for debugging)
 println("First entry AQI: " + firstEntry.main.aqi)
 println("First entry CO: " + firstEntry.components.co)
 println("First entry NO2: " + firstEntry.components.no2)
@@ -77,7 +65,6 @@ println("First entry SO2: " + firstEntry.components.so2)
 println("First entry PM2.5: " + firstEntry.components.pm2_5)
 println("First entry PM10: " + firstEntry.components.pm10)
 
-// Only check index 95 if the list actually has that many entries
 if (jsonResponse.list.size() > 95) {
     def entry95 = jsonResponse.list[95]
     assert entry95 != null : "Entry at index 95 should exist"
@@ -87,7 +74,6 @@ if (jsonResponse.list.size() > 95) {
     println("List has fewer than 96 entries, skipping check for index 95")
 }
 
-// Only verify timestamps if there are enough entries
 if (jsonResponse.list.size() > 50) {
     def firstTimestamp = jsonResponse.list[0].dt
     def laterTimestamp = jsonResponse.list[50].dt
@@ -98,6 +84,5 @@ if (jsonResponse.list.size() > 50) {
     assert laterTimestamp > firstTimestamp : "Later timestamp should be greater than first timestamp"
 }
 
-// Verify at least one entry with valid AQI exists
 def hasValidAqi = jsonResponse.list.any { it.main.aqi >= 1 && it.main.aqi <= 5 }
 assert hasValidAqi : "Response should contain at least one entry with valid AQI"
